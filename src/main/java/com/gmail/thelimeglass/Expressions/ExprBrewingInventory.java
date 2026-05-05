@@ -11,7 +11,7 @@ import com.gmail.thelimeglass.Utils.Annotations.PropertyType;
 import com.gmail.thelimeglass.Utils.Annotations.RegisterSimpleEnum;
 import com.gmail.thelimeglass.Utils.Annotations.Syntax;
 
-import ch.njol.skript.ScriptLoader;
+import ch.njol.skript.lang.parser.ParserInstance;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
@@ -36,7 +36,7 @@ public class ExprBrewingInventory extends SimpleExpression<BrewerInventory>{
 	}
 	@Override
 	public boolean init(Expression<?>[] e, int matchedPattern, Kleenean isDelayed, ParseResult parser) {
-		if (!ScriptLoader.isCurrentEvent(BrewEvent.class)) {
+		if (!ParserInstance.get().isCurrentEvent(BrewEvent.class)) {
 			Skript.error("You can not use brewing inventory expression in any event but on brew event!");
 			return false;
 		}

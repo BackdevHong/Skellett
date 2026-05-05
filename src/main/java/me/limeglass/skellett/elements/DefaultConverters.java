@@ -3,10 +3,10 @@ package me.limeglass.skellett.elements;
 import org.bukkit.Location;
 import org.bukkit.block.data.BlockData;
 import org.eclipse.jdt.annotation.Nullable;
+import org.skriptlang.skript.lang.converter.Converter;
+import org.skriptlang.skript.lang.converter.Converters;
 
 import ch.njol.skript.Skript;
-import ch.njol.skript.classes.Converter;
-import ch.njol.skript.registrations.Converters;
 import me.limeglass.skellett.objects.BlockSave;
 
 public class DefaultConverters {

@@ -9,7 +9,7 @@ import com.gmail.thelimeglass.Utils.Annotations.Config;
 import com.gmail.thelimeglass.Utils.Annotations.PropertyType;
 import com.gmail.thelimeglass.Utils.Annotations.Syntax;
 
-import ch.njol.skript.ScriptLoader;
+import ch.njol.skript.lang.parser.ParserInstance;
 import ch.njol.skript.Skript;
 import ch.njol.skript.aliases.ItemType;
 import ch.njol.skript.classes.Changer;
@@ -33,7 +33,7 @@ public class ExprClickedItem extends SimpleExpression<ItemType> {
 		return true;
 	}
 	public boolean init(Expression<?>[] args, int arg1, Kleenean arg2, SkriptParser.ParseResult arg3) {
-		if (!ScriptLoader.isCurrentEvent(InventoryClickEvent.class)) {
+		if (!ParserInstance.get().isCurrentEvent(InventoryClickEvent.class)) {
 			Skript.error("You can not use clicked item expression in any event but inventory click!");
 			return false;
 		}

@@ -5,7 +5,7 @@ import org.bukkit.event.entity.EntityBreedEvent;
 import org.bukkit.inventory.ItemStack;
 import org.eclipse.jdt.annotation.Nullable;
 
-import ch.njol.skript.ScriptLoader;
+import ch.njol.skript.lang.parser.ParserInstance;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
@@ -25,7 +25,7 @@ public class ExprBreedingItem extends SimpleExpression<ItemStack>{
 		return true;
 	}
 	public boolean init(Expression<?>[] args, int arg1, Kleenean arg2, SkriptParser.ParseResult arg3) {
-		if (!ScriptLoader.isCurrentEvent(EntityBreedEvent.class)) {
+		if (!ParserInstance.get().isCurrentEvent(EntityBreedEvent.class)) {
 			Skript.error("You can not use Breed item expression in any event but on breeding event!");
 			return false;
 		}

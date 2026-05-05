@@ -12,7 +12,7 @@ import com.gmail.thelimeglass.Utils.Annotations.RegisterSimpleEnum;
 import com.gmail.thelimeglass.Utils.Annotations.Syntax;
 import com.gmail.thelimeglass.Utils.Annotations.Version;
 
-import ch.njol.skript.ScriptLoader;
+import ch.njol.skript.lang.parser.ParserInstance;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
@@ -35,7 +35,7 @@ public class ExprEnchantmentOffers extends SimpleExpression<EnchantmentOffer> {
 		return false;
 	}
 	public boolean init(Expression<?>[] args, int arg1, Kleenean arg2, SkriptParser.ParseResult arg3) {
-		if (!ScriptLoader.isCurrentEvent(PrepareItemEnchantEvent.class)) {
+		if (!ParserInstance.get().isCurrentEvent(PrepareItemEnchantEvent.class)) {
 			Skript.error("You can not use enchantment offers expression in any event but on enchant prepare!");
 			return false;
 		}

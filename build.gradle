@@ -11,6 +11,12 @@ plugins {
 compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'
 
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(22)
+	}
+}
+
 configurations {
     testImplementation.extendsFrom testShadow
 }
@@ -48,21 +54,21 @@ repositories {
 dependencies {
 
 	//Nullable annotation
-	implementation (group: 'org.eclipse.jdt', name: 'org.eclipse.jdt.annotation', version: '2.2.800')
+	implementation ("org.eclipse.jdt:org.eclipse.jdt.annotation:2.2.800")
 
 	// Spigot
-	//implementation (group: 'io.papermc.paper', name: 'paper-api', version: '1.20.4-R0.1-SNAPSHOT')
-	implementation (group: 'org.spigotmc', name: 'spigot-api', version: '1.20.6-R0.1-SNAPSHOT')
+	//implementation (group: 'io.papermc.paper', name: 'paper-api', version: '1.21.1-R0.1-SNAPSHOT')
+	implementation ("org.spigotmc:spigot-api:1.21.1-R0.1-SNAPSHOT")
 
 	// Citizens
-	implementation (group: 'net.citizensnpcs', name: 'citizensapi', version: '2.0.41-SNAPSHOT')
+	implementation ("net.citizensnpcs:citizensapi:2.0.41-SNAPSHOT")
 
-	implementation (group: 'com.github.SkriptLang', name: 'Skript', version: '2.8.7') {
+	implementation ("com.github.SkriptLang:Skript:2.15.2") {
 		transitive = false
 	}
 
     // Skript has this
-    implementation group: 'net.kyori', name: 'adventure-text-serializer-bungeecord', version: '4.3.4'
+    implementation "net.kyori:adventure-text-serializer-bungeecord:4.3.4"
     //shadow group: 'net.kyori', name: 'adventure-platform-bukkit', version: '4.3.2'
 
 	// JSON.org
@@ -78,7 +84,8 @@ dependencies {
 task addonTestJar(type: ShadowJar) {
 	dependsOn(shadowJar)
 	archiveFileName = 'Skellett-TestJar-' + version + '.jar'
-	from sourceSets.test.output, sourceSets.main.output, project.configurations.testShadow
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	from sourceSets.main.output, project.configurations.testShadow
 }
 
 tasks.register('setupAddonTest') {
@@ -124,22 +131,20 @@ void createTestTask(String name, String environments, boolean devMode, int javaV
 	}
 }
 
-def latestEnv = 'java17/paper-1.20.4.json'
-def latestJava = 17
-def oldestJava = 8
+def latestEnv = 'java21/paper-1.21.1.json'
+def latestJava = 22
 
 tasks.withType(JavaCompile).configureEach {
-	options.compilerArgs += ["-source", "" + oldestJava, "-target", "" + oldestJava]
+	options.release = 21
 }
 
 // Register different Skript testing tasks
 createTestTask('quickTest', 'src/test/resources/environments/' + latestEnv, false, latestJava)
-createTestTask('addonTestJava17', 'src/test/resources/environments/java17', false, latestJava)
-createTestTask('addonTestJava8', 'src/test/resources/environments/java8', false, oldestJava)
+createTestTask('addonTestJava21', 'src/test/resources/environments/java21', false, latestJava)
 createTestTask('addonTestDev', 'src/test/resources/environments/' + (project.property('testEnv') == null
 	? latestEnv : project.property('testEnv') + '.json'), true, Integer.parseInt(project.property('testEnvJavaVersion') == null
 	? latestJava : project.property('testEnvJavaVersion')))
-tasks.register('addonTest') {dependsOn addonTestJava8, addonTestJava17}
+tasks.register('addonTest') {dependsOn addonTestJava21}
 
 processResources {
 	filter ReplaceTokens, tokens: ["version": project.property("version")]
@@ -152,5 +157,5 @@ processResources {
 shadowJar {
 	configurations = [project.configurations.shadow]
 	archiveVersion = version
-	minimize()
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

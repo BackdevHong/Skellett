@@ -4,7 +4,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityUnleashEvent;
 import org.eclipse.jdt.annotation.Nullable;
 
-import ch.njol.skript.ScriptLoader;
+import ch.njol.skript.lang.parser.ParserInstance;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
@@ -22,7 +22,7 @@ public class ExprUnleashReason extends SimpleExpression<EntityUnleashEvent.Unlea
 		return true;
 	}
 	public boolean init(Expression<?>[] e, int matchedPattern, Kleenean isDelayed, ParseResult parser) {
-		if (!ScriptLoader.isCurrentEvent(EntityUnleashEvent.class)) {
+		if (!ParserInstance.get().isCurrentEvent(EntityUnleashEvent.class)) {
 			Skript.error("You can not use UnleashReason expression in any event but on entity unleash!");
 			return false;
 		}

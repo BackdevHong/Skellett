@@ -9,7 +9,7 @@ import com.gmail.thelimeglass.Utils.Annotations.MainConfig;
 import com.gmail.thelimeglass.Utils.Annotations.RegisterEnum;
 import com.gmail.thelimeglass.Utils.Annotations.Syntax;
 
-import ch.njol.skript.ScriptLoader;
+import ch.njol.skript.lang.parser.ParserInstance;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
@@ -34,7 +34,7 @@ public class ExprDespawnReason extends SimpleExpression<DespawnReason>{
 		return true;
 	}
 	public boolean init(Expression<?>[] args, int arg1, Kleenean arg2, SkriptParser.ParseResult arg3) {
-		if (!ScriptLoader.isCurrentEvent(NPCDespawnEvent.class)) {
+		if (!ParserInstance.get().isCurrentEvent(NPCDespawnEvent.class)) {
 			Skript.error("You can not use npc despawn reason expression in any event but on npc despawn!");
 			return false;
 		}

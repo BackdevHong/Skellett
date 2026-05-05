@@ -10,7 +10,7 @@ import com.gmail.thelimeglass.Utils.Annotations.FullConfig;
 import com.gmail.thelimeglass.Utils.Annotations.PropertyType;
 import com.gmail.thelimeglass.Utils.Annotations.Syntax;
 
-import ch.njol.skript.ScriptLoader;
+import ch.njol.skript.lang.parser.ParserInstance;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
@@ -31,7 +31,7 @@ public class ExprShootGetBow extends SimpleExpression<ItemStack> {
 		return true;
 	}
 	public boolean init(Expression<?>[] args, int arg1, Kleenean arg2, SkriptParser.ParseResult arg3) {
-		if (!ScriptLoader.isCurrentEvent(EntityShootBowEvent.class)) {
+		if (!ParserInstance.get().isCurrentEvent(EntityShootBowEvent.class)) {
 			Skript.error("You can not use Get Bow expression in any event but 'on entity shoot:' event!");
 			return false;
 		}

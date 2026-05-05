@@ -11,7 +11,7 @@ import com.gmail.thelimeglass.Utils.Annotations.PropertyType;
 import com.gmail.thelimeglass.Utils.Annotations.Syntax;
 import com.gmail.thelimeglass.Utils.Annotations.Version;
 
-import ch.njol.skript.ScriptLoader;
+import ch.njol.skript.lang.parser.ParserInstance;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
@@ -36,7 +36,7 @@ public class ExprAnvilPrepareInventory extends SimpleExpression<AnvilInventory>{
 	}
 	@Override
 	public boolean init(Expression<?>[] e, int arg1, Kleenean arg2, ParseResult arg3) {
-		if (!ScriptLoader.isCurrentEvent(PrepareAnvilEvent.class)) {
+		if (!ParserInstance.get().isCurrentEvent(PrepareAnvilEvent.class)) {
 			Skript.error("You can not use anvil inventory expression in any event but anvil prepare event!");
 			return false;
 		}

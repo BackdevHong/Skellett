@@ -10,7 +10,7 @@ import com.gmail.thelimeglass.Utils.Annotations.MainConfig;
 import com.gmail.thelimeglass.Utils.Annotations.PropertyType;
 import com.gmail.thelimeglass.Utils.Annotations.Syntax;
 
-import ch.njol.skript.ScriptLoader;
+import ch.njol.skript.lang.parser.ParserInstance;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
@@ -36,7 +36,7 @@ public class ExprEventNpcSelector extends SimpleExpression<CommandSender>{
 	}
 	@Override
 	public boolean init(Expression<?>[] e, int matchedPattern, Kleenean isDelayed, ParseResult parser) {
-		if (!ScriptLoader.isCurrentEvent(NPCSelectEvent.class)) {
+		if (!ParserInstance.get().isCurrentEvent(NPCSelectEvent.class)) {
 			Skript.error("You can not use npc selector expression in any event but on npc select!");
 			return false;
 		}

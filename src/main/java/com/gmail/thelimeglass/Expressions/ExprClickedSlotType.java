@@ -10,7 +10,7 @@ import com.gmail.thelimeglass.Utils.Annotations.PropertyType;
 import com.gmail.thelimeglass.Utils.Annotations.RegisterEnum;
 import com.gmail.thelimeglass.Utils.Annotations.Syntax;
 
-import ch.njol.skript.ScriptLoader;
+import ch.njol.skript.lang.parser.ParserInstance;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
@@ -31,7 +31,7 @@ public class ExprClickedSlotType extends SimpleExpression<InventoryType.SlotType
 		return true;
 	}
 	public boolean init(Expression<?>[] args, int arg1, Kleenean arg2, SkriptParser.ParseResult arg3) {
-		if (!ScriptLoader.isCurrentEvent(InventoryClickEvent.class)) {
+		if (!ParserInstance.get().isCurrentEvent(InventoryClickEvent.class)) {
 			Skript.error("You can not use clicked slot type expression in any event but inventory click!");
 			return false;
 		}

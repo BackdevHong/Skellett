@@ -10,7 +10,7 @@ import com.gmail.thelimeglass.Utils.Annotations.PropertyType;
 import com.gmail.thelimeglass.Utils.Annotations.Syntax;
 import com.gmail.thelimeglass.Utils.Annotations.Version;
 
-import ch.njol.skript.ScriptLoader;
+import ch.njol.skript.lang.parser.ParserInstance;
 import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.classes.Changer.ChangeMode;
@@ -35,7 +35,7 @@ public class ExprBrewingFuelPower extends SimpleExpression<Number> {
 		return true;
 	}
 	public boolean init(Expression<?>[] args, int arg1, Kleenean arg2, SkriptParser.ParseResult arg3) {
-		if (!ScriptLoader.isCurrentEvent(BrewingStandFuelEvent.class)) {
+		if (!ParserInstance.get().isCurrentEvent(BrewingStandFuelEvent.class)) {
 			Skript.error("You can not use brewing stand fuel expression in any event but brewing stand fuel event!");
 			return false;
 		}

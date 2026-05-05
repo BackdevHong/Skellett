@@ -8,7 +8,7 @@ import com.gmail.thelimeglass.Utils.Annotations.Config;
 import com.gmail.thelimeglass.Utils.Annotations.PropertyType;
 import com.gmail.thelimeglass.Utils.Annotations.Syntax;
 
-import ch.njol.skript.ScriptLoader;
+import ch.njol.skript.lang.parser.ParserInstance;
 import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.classes.Changer.ChangeMode;
@@ -32,7 +32,7 @@ public class ExprRedstoneCurrent extends SimpleExpression<Integer> {
 		return true;
 	}
 	public boolean init(Expression<?>[] e, int matchedPattern, Kleenean isDelayed, ParseResult parser) {
-		if (!ScriptLoader.isCurrentEvent(BlockRedstoneEvent.class)) {
+		if (!ParserInstance.get().isCurrentEvent(BlockRedstoneEvent.class)) {
 			Skript.error("You can not use New Redstone Current expression in any event but on redstone changing event!");
 			return false;
 		}

@@ -11,7 +11,7 @@ import com.gmail.thelimeglass.Utils.Annotations.PropertyType;
 import com.gmail.thelimeglass.Utils.Annotations.RegisterSimpleEnum;
 import com.gmail.thelimeglass.Utils.Annotations.Syntax;
 
-import ch.njol.skript.ScriptLoader;
+import ch.njol.skript.lang.parser.ParserInstance;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
@@ -33,7 +33,7 @@ public class ExprEventMap extends SimpleExpression<MapView> {
 		return true;
 	}
 	public boolean init(Expression<?>[] args, int arg1, Kleenean arg2, SkriptParser.ParseResult arg3) {
-		if (!ScriptLoader.isCurrentEvent(MapInitializeEvent.class)) {
+		if (!ParserInstance.get().isCurrentEvent(MapInitializeEvent.class)) {
 			Skript.error("You can not use event-map expression in any event but map initialize event!");
 			return false;
 		}

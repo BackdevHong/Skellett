@@ -9,7 +9,7 @@ import com.gmail.thelimeglass.Utils.Annotations.Config;
 import com.gmail.thelimeglass.Utils.Annotations.PropertyType;
 import com.gmail.thelimeglass.Utils.Annotations.Syntax;
 
-import ch.njol.skript.ScriptLoader;
+import ch.njol.skript.lang.parser.ParserInstance;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
@@ -29,7 +29,7 @@ public class ExprSpreadSource extends SimpleExpression<Block> {
 		return true;
 	}
 	public boolean init(Expression<?>[] args, int arg1, Kleenean arg2, SkriptParser.ParseResult arg3) {
-		if (!ScriptLoader.isCurrentEvent(BlockSpreadEvent.class)) {
+		if (!ParserInstance.get().isCurrentEvent(BlockSpreadEvent.class)) {
 			Skript.error("You can not use Source Block expression in any event but 'on spread:' event!");
 			return false;
 		}

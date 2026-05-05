@@ -17,8 +17,9 @@ import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Literal;
 import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
-import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
+
+import static me.limeglass.skellett.utils.SkriptCompatibility.registerEventValue;
 
 @Name("Fishing")
 @Description("Called when a player triggers a fishing event (catching a fish, failing, etc.)")
@@ -27,19 +28,19 @@ public class EvtFishing extends SkriptEvent {
 	static {
 		Skript.registerEvent("Fishing", EvtFishing.class, PlayerFishEvent.class, "[player] fish[ing] [state[s] [of] %-fishingstates%]");
 
-		EventValues.registerEventValue(PlayerFishEvent.class, FishHook.class, new Getter<FishHook, PlayerFishEvent>() {
+		registerEventValue(PlayerFishEvent.class, FishHook.class, new Getter<FishHook, PlayerFishEvent>() {
 			@Override
 			public FishHook get(PlayerFishEvent e) {
 				return e.getHook();
 			}
 		}, 0);
-		EventValues.registerEventValue(PlayerFishEvent.class, State.class, new Getter<State, PlayerFishEvent>() {
+		registerEventValue(PlayerFishEvent.class, State.class, new Getter<State, PlayerFishEvent>() {
 			@Override
 			public State get(PlayerFishEvent e) {
 				return e.getState();
 			}
 		}, 0);
-		EventValues.registerEventValue(PlayerFishEvent.class, Entity.class, new Getter<Entity, PlayerFishEvent>() {
+		registerEventValue(PlayerFishEvent.class, Entity.class, new Getter<Entity, PlayerFishEvent>() {
 			@Override
 			@Nullable
 			public Entity get(PlayerFishEvent e) {

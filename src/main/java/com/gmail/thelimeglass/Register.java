@@ -57,7 +57,6 @@ import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.ParseContext;
 import ch.njol.skript.lang.util.SimpleEvent;
 import ch.njol.skript.registrations.Classes;
-import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import net.citizensnpcs.api.event.EntityTargetNPCEvent;
 import net.citizensnpcs.api.event.NPCClickEvent;
@@ -80,6 +79,8 @@ import net.citizensnpcs.api.event.NPCTeleportEvent;
 import net.citizensnpcs.api.event.PlayerCreateNPCEvent;
 import net.citizensnpcs.api.npc.NPC;
 
+import static me.limeglass.skellett.utils.SkriptCompatibility.registerEventValue;
+
 public class Register {
 
 	@SuppressWarnings("rawtypes")
@@ -88,25 +89,25 @@ public class Register {
 	public static void events() {
 		if (Skellett.syntaxToggleData.getBoolean("Main.PrepareEnchant")) {
 			Skript.registerEvent("[on] ([item] enchant prepare|prepare [item] enchant):", SimpleEvent.class, PrepareItemEnchantEvent.class, "[on] ([item] enchant prepare|prepare [item] enchant)");
-			EventValues.registerEventValue(PrepareItemEnchantEvent.class, Block.class, new Getter<Block, PrepareItemEnchantEvent>() {
+			registerEventValue(PrepareItemEnchantEvent.class, Block.class, new Getter<Block, PrepareItemEnchantEvent>() {
 				@Override
 				public Block get(PrepareItemEnchantEvent e) {
 					return e.getEnchantBlock();
 				}
 			}, 0);
-			EventValues.registerEventValue(PrepareItemEnchantEvent.class, Player.class, new Getter<Player, PrepareItemEnchantEvent>() {
+			registerEventValue(PrepareItemEnchantEvent.class, Player.class, new Getter<Player, PrepareItemEnchantEvent>() {
 				@Override
 				public Player get(PrepareItemEnchantEvent e) {
 					return e.getEnchanter();
 				}
 			}, 0);
-			EventValues.registerEventValue(PrepareItemEnchantEvent.class, Number.class, new Getter<Number, PrepareItemEnchantEvent>() {
+			registerEventValue(PrepareItemEnchantEvent.class, Number.class, new Getter<Number, PrepareItemEnchantEvent>() {
 				@Override
 				public Number get(PrepareItemEnchantEvent e) {
 					return e.getEnchantmentBonus();
 				}
 			}, 0);
-			EventValues.registerEventValue(PrepareItemEnchantEvent.class, ItemStack.class, new Getter<ItemStack, PrepareItemEnchantEvent>() {
+			registerEventValue(PrepareItemEnchantEvent.class, ItemStack.class, new Getter<ItemStack, PrepareItemEnchantEvent>() {
 				@Override
 				public ItemStack get(PrepareItemEnchantEvent e) {
 					return e.getItem();
@@ -118,7 +119,7 @@ public class Register {
 		}
 		if (Skellett.syntaxToggleData.getBoolean("Main.Brewing")) {
 			Skript.registerEvent("[on] [skellett] brew[ing]:", SimpleEvent.class, BrewEvent.class, "[on] [skellett] brew[ing]");
-			EventValues.registerEventValue(BrewEvent.class, Number.class, new Getter<Number, BrewEvent>() {
+			registerEventValue(BrewEvent.class, Number.class, new Getter<Number, BrewEvent>() {
 				@Override
 				public Number get(BrewEvent e) {
 					return e.getFuelLevel();
@@ -133,7 +134,7 @@ public class Register {
 				Bukkit.getConsoleSender().sendMessage(Skellett.cc(Skellett.prefix + "The arrow pickup event is only for 1.8+ versions!"));
 			} else {
 				registerEvent(PlayerPickupArrowEvent.class, "arrow pickup");
-				EventValues.registerEventValue(PlayerPickupArrowEvent.class, AbstractArrow.class, new Getter<AbstractArrow, PlayerPickupArrowEvent>() {
+				registerEventValue(PlayerPickupArrowEvent.class, AbstractArrow.class, new Getter<AbstractArrow, PlayerPickupArrowEvent>() {
 					@Override
 					public AbstractArrow get(PlayerPickupArrowEvent e) {
 						return e.getArrow();
@@ -146,7 +147,7 @@ public class Register {
 				Bukkit.getConsoleSender().sendMessage(Skellett.cc(Skellett.prefix + "The offhand switch event is only for 1.9+ versions!"));
 			} else {
 				registerEvent(PlayerSwapHandItemsEvent.class, "off[ ]hand (switch|move)");
-				EventValues.registerEventValue(PlayerSwapHandItemsEvent.class, ItemStack.class, new Getter<ItemStack, PlayerSwapHandItemsEvent>() {
+				registerEventValue(PlayerSwapHandItemsEvent.class, ItemStack.class, new Getter<ItemStack, PlayerSwapHandItemsEvent>() {
 					@Override
 					public ItemStack get(PlayerSwapHandItemsEvent e) {
 						return e.getMainHandItem();
@@ -156,7 +157,7 @@ public class Register {
 		}
 		if (Skellett.syntaxToggleData.getBoolean("Syntax.Events.CreativeInventoryClick")) {
 			registerEvent(InventoryCreativeEvent.class, "creative inventory click");
-			EventValues.registerEventValue(InventoryCreativeEvent.class, ItemStack.class, new Getter<ItemStack, InventoryCreativeEvent>() {
+			registerEventValue(InventoryCreativeEvent.class, ItemStack.class, new Getter<ItemStack, InventoryCreativeEvent>() {
 				@Override
 				public ItemStack get(InventoryCreativeEvent e) {
 					return e.getCursor();
@@ -165,13 +166,13 @@ public class Register {
 		}
 		if (Skellett.syntaxToggleData.getBoolean("Syntax.Events.EntityTeleport")) {
 			registerEvent(EntityTeleportEvent.class, "entity teleport");
-			EventValues.registerEventValue(EntityTeleportEvent.class, Location.class, new Getter<Location, EntityTeleportEvent>() {
+			registerEventValue(EntityTeleportEvent.class, Location.class, new Getter<Location, EntityTeleportEvent>() {
 				@Override
 				public Location get(EntityTeleportEvent e) {
 					return e.getTo();
 				}
 			}, 0);
-			EventValues.registerEventValue(EntityTeleportEvent.class, Location.class, new Getter<Location, EntityTeleportEvent>() {
+			registerEventValue(EntityTeleportEvent.class, Location.class, new Getter<Location, EntityTeleportEvent>() {
 				@Override
 				public Location get(EntityTeleportEvent e) {
 					return e.getFrom();
@@ -180,13 +181,13 @@ public class Register {
 		}
 		if (Skellett.syntaxToggleData.getBoolean("Syntax.Events.VehicleMove")) {
 			registerEvent(VehicleMoveEvent.class, "(vehicle|minecart|boat) move");
-			EventValues.registerEventValue(VehicleMoveEvent.class, Location.class, new Getter<Location, VehicleMoveEvent>() {
+			registerEventValue(VehicleMoveEvent.class, Location.class, new Getter<Location, VehicleMoveEvent>() {
 				@Override
 				public Location get(VehicleMoveEvent e) {
 					return e.getFrom();
 				}
 			}, -1);
-			EventValues.registerEventValue(VehicleMoveEvent.class, Location.class, new Getter<Location, VehicleMoveEvent>() {
+			registerEventValue(VehicleMoveEvent.class, Location.class, new Getter<Location, VehicleMoveEvent>() {
 				@Override
 				public Location get(VehicleMoveEvent e) {
 					return e.getTo();
@@ -195,7 +196,7 @@ public class Register {
 		}
 		if (Skellett.syntaxToggleData.getBoolean("Syntax.Events.EntityBlockChange")) {
 			registerEvent(EntityChangeBlockEvent.class, "entity block (change|modify)");
-			EventValues.registerEventValue(EntityChangeBlockEvent.class, Block.class, new Getter<Block, EntityChangeBlockEvent>() {
+			registerEventValue(EntityChangeBlockEvent.class, Block.class, new Getter<Block, EntityChangeBlockEvent>() {
 				@Override
 				public Block get(EntityChangeBlockEvent e) {
 					return e.getBlock();
@@ -217,7 +218,7 @@ public class Register {
 		}
 		if (Skellett.syntaxToggleData.getBoolean("Syntax.Events.EntityUnleash")) {
 			registerEvent(EntityUnleashEvent.class, "[entity] (un(leash|lead)|(leash|lead) break)");
-			EventValues.registerEventValue(EntityUnleashEvent.class, Block.class, new Getter<Block, EntityUnleashEvent>() {
+			registerEventValue(EntityUnleashEvent.class, Block.class, new Getter<Block, EntityUnleashEvent>() {
 				@Override
 				public Block get(EntityUnleashEvent e) {
 					if (((LivingEntity) e.getEntity()).isDead()) {
@@ -238,13 +239,13 @@ public class Register {
 		if (Skellett.syntaxToggleData.getBoolean("Syntax.Events.BrewingFuel")) {
 			if (!Bukkit.getServer().getVersion().contains("MC: 1.6") && !Bukkit.getServer().getVersion().contains("MC: 1.7") && !Bukkit.getServer().getVersion().contains("MC: 1.8") && !Bukkit.getServer().getVersion().contains("MC: 1.9") && !Bukkit.getServer().getVersion().contains("MC: 1.10") && !Bukkit.getServer().getVersion().contains("MC: 1.11)") && !Bukkit.getServer().getVersion().contains("MC: 1.11.1")) {
 				registerEvent(BrewingStandFuelEvent.class, "brew[ing] [stand] fuel [increase]");
-				EventValues.registerEventValue(BrewingStandFuelEvent.class, Number.class, new Getter<Number, BrewingStandFuelEvent>() {
+				registerEventValue(BrewingStandFuelEvent.class, Number.class, new Getter<Number, BrewingStandFuelEvent>() {
 					@Override
 					public Number get(BrewingStandFuelEvent e) {
 						return e.getFuelPower();
 					}
 				}, 0);
-				EventValues.registerEventValue(BrewingStandFuelEvent.class, ItemStack.class, new Getter<ItemStack, BrewingStandFuelEvent>() {
+				registerEventValue(BrewingStandFuelEvent.class, ItemStack.class, new Getter<ItemStack, BrewingStandFuelEvent>() {
 					@Override
 					public ItemStack get(BrewingStandFuelEvent e) {
 						return e.getFuel();
@@ -273,19 +274,19 @@ public class Register {
 							return b.toString();
 						}
 				}));
-				EventValues.registerEventValue(PrepareAnvilEvent.class, ItemStack.class, new Getter<ItemStack, PrepareAnvilEvent>() {
+				registerEventValue(PrepareAnvilEvent.class, ItemStack.class, new Getter<ItemStack, PrepareAnvilEvent>() {
 					@Override
 					public ItemStack get(PrepareAnvilEvent e) {
 						return e.getResult();
 					}
 				}, 0);
-				EventValues.registerEventValue(PrepareAnvilEvent.class, Number.class, new Getter<Number, PrepareAnvilEvent>() {
+				registerEventValue(PrepareAnvilEvent.class, Number.class, new Getter<Number, PrepareAnvilEvent>() {
 					@Override
 					public Number get(PrepareAnvilEvent e) {
 						return e.getInventory().getRepairCost();
 					}
 				}, 0);
-				EventValues.registerEventValue(PrepareAnvilEvent.class, String.class, new Getter<String, PrepareAnvilEvent>() {
+				registerEventValue(PrepareAnvilEvent.class, String.class, new Getter<String, PrepareAnvilEvent>() {
 					@Override
 					public String get(PrepareAnvilEvent e) {
 						return e.getInventory().getRenameText();
@@ -298,69 +299,69 @@ public class Register {
 		}
 		if (Skellett.getInstance().getConfig().getBoolean("PluginHooks.Npc")) {
 			registerEvent(NPCDamageByEntityEvent.class, "(npc|citizen) damage (by|from) [a[n]] entity");
-			EventValues.registerEventValue(NPCDamageByEntityEvent.class, Entity.class, new Getter<Entity, NPCDamageByEntityEvent>() {
+			registerEventValue(NPCDamageByEntityEvent.class, Entity.class, new Getter<Entity, NPCDamageByEntityEvent>() {
 				@Override
 				public Entity get(NPCDamageByEntityEvent e) {
 					return e.getDamager();
 				}
 			}, 0);
-			EventValues.registerEventValue(NPCDamageByEntityEvent.class, String.class, new Getter<String, NPCDamageByEntityEvent>() {
+			registerEventValue(NPCDamageByEntityEvent.class, String.class, new Getter<String, NPCDamageByEntityEvent>() {
 				@Override
 				public String get(NPCDamageByEntityEvent e) {
 					return e.getCause().toString();
 				}
 			}, 0);
 			registerEvent(NPCDamageByBlockEvent.class, "(npc|citizen) damage (by|from) [a] block");
-			EventValues.registerEventValue(NPCDamageByBlockEvent.class, Block.class, new Getter<Block, NPCDamageByBlockEvent>() {
+			registerEventValue(NPCDamageByBlockEvent.class, Block.class, new Getter<Block, NPCDamageByBlockEvent>() {
 				@Override
 				public Block get(NPCDamageByBlockEvent e) {
 					return e.getDamager();
 				}
 			}, 0);
 			registerEvent(EntityTargetNPCEvent.class, "entity target (npc|citizen)");
-			EventValues.registerEventValue(EntityTargetNPCEvent.class, Entity.class, new Getter<Entity, EntityTargetNPCEvent>() {
+			registerEventValue(EntityTargetNPCEvent.class, Entity.class, new Getter<Entity, EntityTargetNPCEvent>() {
 				@Override
 				public Entity get(EntityTargetNPCEvent e) {
 					return e.getEntity();
 				}
 			}, 0);
 			registerEvent(NPCClickEvent.class, "(npc|citizen) click");
-			EventValues.registerEventValue(NPCClickEvent.class, Player.class, new Getter<Player, NPCClickEvent>() {
+			registerEventValue(NPCClickEvent.class, Player.class, new Getter<Player, NPCClickEvent>() {
 				@Override
 				public Player get(NPCClickEvent e) {
 					return e.getClicker();
 				}
 			}, 0);
 			registerEvent(NPCLeftClickEvent.class, "(npc|citizen) left[(-| )]click");
-			EventValues.registerEventValue(NPCLeftClickEvent.class, Player.class, new Getter<Player, NPCLeftClickEvent>() {
+			registerEventValue(NPCLeftClickEvent.class, Player.class, new Getter<Player, NPCLeftClickEvent>() {
 				@Override
 				public Player get(NPCLeftClickEvent e) {
 					return e.getClicker();
 				}
 			}, 0);
 			registerEvent(NPCRightClickEvent.class, "(npc|citizen) right[(-| )]click");
-			EventValues.registerEventValue(NPCRightClickEvent.class, Player.class, new Getter<Player, NPCRightClickEvent>() {
+			registerEventValue(NPCRightClickEvent.class, Player.class, new Getter<Player, NPCRightClickEvent>() {
 				@Override
 				public Player get(NPCRightClickEvent e) {
 					return e.getClicker();
 				}
 			}, 0);
 			registerEvent(NPCCollisionEvent.class, "(npc|citizen) [entity] colli(sion|de)");
-			EventValues.registerEventValue(NPCCollisionEvent.class, Entity.class, new Getter<Entity, NPCCollisionEvent>() {
+			registerEventValue(NPCCollisionEvent.class, Entity.class, new Getter<Entity, NPCCollisionEvent>() {
 				@Override
 				public Entity get(NPCCollisionEvent e) {
 					return e.getCollidedWith();
 				}
 			}, 0);
 			registerEvent(NPCCombustByBlockEvent.class, "(npc|citizen) (combust[ion]|ignition) (by|from) [a] block");
-			EventValues.registerEventValue(NPCCombustByBlockEvent.class, Block.class, new Getter<Block, NPCCombustByBlockEvent>() {
+			registerEventValue(NPCCombustByBlockEvent.class, Block.class, new Getter<Block, NPCCombustByBlockEvent>() {
 				@Override
 				public Block get(NPCCombustByBlockEvent e) {
 					return e.getCombuster();
 				}
 			}, 0);
 			registerEvent(NPCCombustByBlockEvent.class, "(npc|citizen) (combust[ion]|ignition) (by|from) [a[n]] entity");
-			EventValues.registerEventValue(NPCCombustByEntityEvent.class, Entity.class, new Getter<Entity, NPCCombustByEntityEvent>() {
+			registerEventValue(NPCCombustByEntityEvent.class, Entity.class, new Getter<Entity, NPCCombustByEntityEvent>() {
 				@Override
 				public Entity get(NPCCombustByEntityEvent e) {
 					return e.getCombuster();
@@ -368,7 +369,7 @@ public class Register {
 			}, 0);
 			registerEvent(NPCCreateEvent.class, "(npc|citizen) create");
 			registerEvent(NPCDamageEntityEvent.class, "(npc|citizen) [entity] damage");
-			EventValues.registerEventValue(NPCDamageEntityEvent.class, Entity.class, new Getter<Entity, NPCDamageEntityEvent>() {
+			registerEventValue(NPCDamageEntityEvent.class, Entity.class, new Getter<Entity, NPCDamageEntityEvent>() {
 				@Override
 				public Entity get(NPCDamageEntityEvent e) {
 					return e.getDamaged();
@@ -388,7 +389,7 @@ public class Register {
 			registerEvent(NPCRemoveEvent.class, "(npc|citizen) remove");
 			//TODO: Trait events
 			registerEvent(NPCSelectEvent.class, "(npc|citizen) sel[ect[ed]]");
-			EventValues.registerEventValue(NPCSelectEvent.class, Player.class, new Getter<Player, NPCSelectEvent>() {
+			registerEventValue(NPCSelectEvent.class, Player.class, new Getter<Player, NPCSelectEvent>() {
 				@Override
 				public Player get(NPCSelectEvent e) {
 					if (Bukkit.getPlayer(e.getSelector().getName()) != null) {
@@ -398,7 +399,7 @@ public class Register {
 				}
 			}, 0);
 			registerEvent(NPCSpawnEvent.class, "(npc|citizen) spawn");
-			EventValues.registerEventValue(NPCSpawnEvent.class, Location.class, new Getter<Location, NPCSpawnEvent>() {
+			registerEventValue(NPCSpawnEvent.class, Location.class, new Getter<Location, NPCSpawnEvent>() {
 				@Override
 				public Location get(NPCSpawnEvent e) {
 					return e.getLocation();
@@ -413,7 +414,7 @@ public class Register {
 			if (npcTp) {
 				//TODO: Get from and to location
 				registerEvent(NPCTeleportEvent.class, "(npc|citizen) teleport");
-				EventValues.registerEventValue(NPCTeleportEvent.class, Location.class, new Getter<Location, NPCTeleportEvent>() {
+				registerEventValue(NPCTeleportEvent.class, Location.class, new Getter<Location, NPCTeleportEvent>() {
 					@Override
 					public Location get(NPCTeleportEvent e) {
 						return e.getTo();
@@ -421,7 +422,7 @@ public class Register {
 				}, 0);
 			}
 			registerEvent(PlayerCreateNPCEvent.class, "player create (npc|citizen)");
-			EventValues.registerEventValue(PlayerCreateNPCEvent.class, Player.class, new Getter<Player, PlayerCreateNPCEvent>() {
+			registerEventValue(PlayerCreateNPCEvent.class, Player.class, new Getter<Player, PlayerCreateNPCEvent>() {
 				@Override
 				public Player get(PlayerCreateNPCEvent e) {
 					return e.getCreator();
@@ -431,7 +432,7 @@ public class Register {
 		if (Skellett.syntaxToggleData.getBoolean("Syntax.Events.SpawnerSpawn")) {
 			if (!Bukkit.getServer().getVersion().contains("MC: 1.8")) {
 				registerEvent(SpawnerSpawnEvent.class, "spawner spawn");
-				EventValues.registerEventValue(SpawnerSpawnEvent.class, Block.class, new Getter<Block, SpawnerSpawnEvent>() {
+				registerEventValue(SpawnerSpawnEvent.class, Block.class, new Getter<Block, SpawnerSpawnEvent>() {
 					@Override
 					public Block get(SpawnerSpawnEvent e) {
 						return e.getSpawner().getBlock();
@@ -441,39 +442,39 @@ public class Register {
 		}
 		if (Skellett.syntaxToggleData.getBoolean("Syntax.Events.Hanging")) {
 			registerEvent(HangingBreakEvent.class, "(unhang|[entity] unhung)");
-			EventValues.registerEventValue(HangingBreakEvent.class, Entity.class, new Getter<Entity, HangingBreakEvent>() {
+			registerEventValue(HangingBreakEvent.class, Entity.class, new Getter<Entity, HangingBreakEvent>() {
 				@Override
 				public Entity get(HangingBreakEvent e) {
 					return e.getEntity();
 				}
 			}, 0);
 			registerEvent(HangingPlaceEvent.class, "(hang|[entity] hung)");
-			EventValues.registerEventValue(HangingPlaceEvent.class, Entity.class, new Getter<Entity, HangingPlaceEvent>() {
+			registerEventValue(HangingPlaceEvent.class, Entity.class, new Getter<Entity, HangingPlaceEvent>() {
 				@Override
 				public Entity get(HangingPlaceEvent e) {
 					return e.getEntity();
 				}
 			}, 0);
-			EventValues.registerEventValue(HangingPlaceEvent.class, Player.class, new Getter<Player, HangingPlaceEvent>() {
+			registerEventValue(HangingPlaceEvent.class, Player.class, new Getter<Player, HangingPlaceEvent>() {
 				@Override
 				public Player get(HangingPlaceEvent e) {
 					return e.getPlayer();
 				}
 			}, 0);
-			EventValues.registerEventValue(HangingPlaceEvent.class, Block.class, new Getter<Block, HangingPlaceEvent>() {
+			registerEventValue(HangingPlaceEvent.class, Block.class, new Getter<Block, HangingPlaceEvent>() {
 				@Override
 				public Block get(HangingPlaceEvent e) {
 					return e.getBlock();
 				}
 			}, 0);
 			registerEvent(HangingBreakByEntityEvent.class, "([un]hang[ing]|[un]hung) [entity] (remove|break|destroy|damage)");
-			EventValues.registerEventValue(HangingBreakByEntityEvent.class, Entity.class, new Getter<Entity, HangingBreakByEntityEvent>() {
+			registerEventValue(HangingBreakByEntityEvent.class, Entity.class, new Getter<Entity, HangingBreakByEntityEvent>() {
 				@Override
 				public Entity get(HangingBreakByEntityEvent e) {
 					return e.getRemover();
 				}
 			}, 0);
-			EventValues.registerEventValue(HangingBreakByEntityEvent.class, Entity.class, new Getter<Entity, HangingBreakByEntityEvent>() {
+			registerEventValue(HangingBreakByEntityEvent.class, Entity.class, new Getter<Entity, HangingBreakByEntityEvent>() {
 				@Override
 				public Entity get(HangingBreakByEntityEvent e) {
 					return e.getEntity();
@@ -593,25 +594,27 @@ public class Register {
 				}));
 			}
 		}
-		Classes.registerClass(new ClassInfo<UUID>(UUID.class, "uuid")
-			.name("uuid")
-			.description("A getter for uuid's")
-			.defaultExpression(new EventValueExpression<UUID>(UUID.class))
-			.parser(new Parser<UUID>() {
-				@Override
-				@Nullable
-				public UUID parse(String obj, ParseContext context) {
-					return null;
-				}
-				@Override
-				public String toString(UUID e, int flags) {
-					return e.toString();
-				}
-				@Override
-				public String toVariableNameString(UUID e) {
-					return e.toString();
-				}
-		}));
+		if (Classes.getExactClassInfo(UUID.class) == null && Classes.getClassInfoNoError("uuid") == null) {
+			Classes.registerClass(new ClassInfo<UUID>(UUID.class, "uuid")
+				.name("uuid")
+				.description("A getter for uuid's")
+				.defaultExpression(new EventValueExpression<UUID>(UUID.class))
+				.parser(new Parser<UUID>() {
+					@Override
+					@Nullable
+					public UUID parse(String obj, ParseContext context) {
+						return null;
+					}
+					@Override
+					public String toString(UUID e, int flags) {
+						return e.toString();
+					}
+					@Override
+					public String toVariableNameString(UUID e) {
+						return e.toString();
+					}
+			}));
+		}
 	}
 	
 	@SuppressWarnings("rawtypes")
